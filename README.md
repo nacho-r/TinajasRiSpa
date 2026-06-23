@@ -14,7 +14,7 @@ Luego abre la URL que entrega Vite.
 ## Antes de publicar
 
 - En Netlify usa build command `npm run build` y publish directory `dist`.
-- Cambia `https://tu-sitio.netlify.app/` en `robots.txt` y `sitemap.xml` por la URL real de Netlify o tu dominio propio.
+- URL publicada: `https://tinajasrispa.netlify.app/`.
 - Si tienes nombre comercial, comuna y cobertura exacta, agrégalos al texto y al JSON-LD de `index.html`.
 - Mantén el enlace de WhatsApp como `https://wa.me/56974820423`; el formato con `+` o sin `:` en `https` puede fallar.
 - Las fotos y videos usados por la app están en `public/assets`; Vite los publica como `/assets/...`.
