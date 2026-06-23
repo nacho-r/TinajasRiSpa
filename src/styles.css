@@ -12,6 +12,14 @@
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: Sora, Inter, ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
   * {
     box-sizing: border-box;
   }
@@ -26,12 +34,106 @@
   button {
     -webkit-tap-highlight-color: transparent;
   }
+
+  ::selection {
+    background: #0e5f58;
+    color: #fff;
+  }
 }
 
 @layer components {
   .hero-image {
     transform-origin: center center;
-    filter: saturate(1.04) contrast(1.02);
+    filter: saturate(1.08) contrast(1.04);
+    animation: hero-zoom 22s ease-in-out infinite alternate;
+  }
+
+  @keyframes hero-zoom {
+    from {
+      transform: scale(1);
+    }
+
+    to {
+      transform: scale(1.08);
+    }
+  }
+
+  /* Texto con degradado dorado animado */
+  .text-gradient-gold {
+    background: linear-gradient(100deg, #f7d08a 0%, #ffe9c2 28%, #f6c06e 52%, #ffd98a 76%, #f7d08a 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 6s linear infinite;
+  }
+
+  /* Vapor que sube en el hero */
+  .steam {
+    position: absolute;
+    bottom: 12%;
+    width: 90px;
+    height: 90px;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    filter: blur(8px);
+    opacity: 0;
+    animation: steam-rise 7s ease-in infinite;
+    pointer-events: none;
+  }
+
+  @keyframes steam-rise {
+    0% {
+      transform: translateY(40px) scale(0.6);
+      opacity: 0;
+    }
+
+    20% {
+      opacity: 0.45;
+    }
+
+    100% {
+      transform: translateY(-220px) scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  /* Brillo que recorre las tarjetas al hacer hover */
+  .card-shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 0.8s ease;
+    pointer-events: none;
+  }
+
+  .card-shine:hover::after {
+    transform: translateX(120%);
+  }
+
+  /* Marquee de palabras clave */
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 26s linear infinite;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   .scroll-reveal {
@@ -63,11 +165,33 @@
     }
   }
 
+  /* Indicador de scroll en el hero */
+  .scroll-hint {
+    animation: scroll-bob 1.8s ease-in-out infinite;
+  }
+
+  @keyframes scroll-bob {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.55;
+    }
+
+    50% {
+      transform: translateY(8px);
+      opacity: 1;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .hero-image,
     .scroll-reveal,
     .scroll-reveal.is-visible,
-    .float-image {
+    .float-image,
+    .steam,
+    .marquee,
+    .scroll-hint,
+    .text-gradient-gold {
       animation: none;
       transform: none;
       transition: none;

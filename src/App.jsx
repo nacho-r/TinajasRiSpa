@@ -5,6 +5,7 @@ import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import {
   ArrowRight,
   Bath,
+  ChevronDown,
   Flame,
   Hammer,
   Image as ImageIcon,
@@ -12,6 +13,7 @@ import {
   Play,
   ShieldCheck,
   Sparkles,
+  Star,
   Trees
 } from "lucide-react";
 import "./styles.css";
@@ -142,8 +144,63 @@ const faqs = [
   }
 ];
 
+const stats = [
+  { value: "3–12", label: "personas por tinaja" },
+  { value: "100%", label: "cobertura en Chile" },
+  { value: "A pedido", label: "medidas a tu espacio" },
+  { value: "Directo", label: "atención por WhatsApp" }
+];
+
+const marqueeWords = [
+  "Tinajas de madera",
+  "Saunas exteriores",
+  "Hot tubs",
+  "Descanso todo el año",
+  "Fabricación a pedido",
+  "Cobertura nacional"
+];
+
 function whatsappUrl(message = "Hola, quiero cotizar una tinaja o sauna") {
   return `${whatsappBase}?text=${encodeURIComponent(message)}`;
+}
+
+function ScrollProgress() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    function onScroll() {
+      const scrollTop = window.scrollY;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(height > 0 ? (scrollTop / height) * 100 : 0);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <div className="fixed inset-x-0 top-0 z-50 h-1">
+      <div
+        className="h-full bg-gradient-to-r from-[#0e5f58] via-[#f6c06e] to-[#f7d08a] transition-[width] duration-150"
+        style={{ width: `${progress}%` }}
+      />
+    </div>
+  );
+}
+
+function FloatingWhatsApp() {
+  return (
+    <a
+      href={whatsappUrl()}
+      target="_blank"
+      rel="noreferrer"
+      aria-label="Cotizar por WhatsApp"
+      className="fixed bottom-5 right-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-[#25d366] text-white shadow-[0_12px_34px_rgba(37,211,102,.5)] transition hover:scale-105 sm:h-16 sm:w-16"
+    >
+      <span className="absolute inset-0 rounded-full bg-[#25d366] animate-pulseRing" aria-hidden="true" />
+      <MessageCircle className="relative" size={28} />
+    </a>
+  );
 }
 
 function ProductModel() {
@@ -381,6 +438,8 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#f5efe4] text-[#211814]">
+      <ScrollProgress />
+      <FloatingWhatsApp />
       <header className="fixed inset-x-0 top-0 z-40 border-b border-white/35 bg-[#f5efe4]/85 backdrop-blur-xl">
         <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto] items-center gap-4 px-4 py-3 md:grid-cols-[auto_1fr_auto] md:px-8">
           <a href="#inicio" className="flex items-center gap-3 font-black tracking-normal">
@@ -405,19 +464,37 @@ function App() {
       <main id="inicio">
         <section className="relative isolate grid min-h-[96svh] items-end overflow-hidden bg-[#130d0a] px-4 pb-8 pt-28 md:px-8 lg:px-14">
           <img className="hero-image absolute inset-0 -z-20 h-full w-full object-cover object-[50%_46%]" src={media.hero} alt="Trabajo RI Spa con tinaja y terminación de madera para exterior" width="1521" height="1900" />
-          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(19,11,8,.84),rgba(19,11,8,.35)_52%,rgba(19,11,8,.1)),linear-gradient(0deg,rgba(19,11,8,.65),transparent_52%)]" />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(19,11,8,.86),rgba(19,11,8,.4)_52%,rgba(19,11,8,.12)),linear-gradient(0deg,rgba(19,11,8,.7),transparent_52%)]" />
+
+          {/* Vapor que se eleva */}
+          <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+            <span className="steam" style={{ left: "12%", animationDelay: "0s" }} />
+            <span className="steam" style={{ left: "26%", animationDelay: "2.4s" }} />
+            <span className="steam" style={{ left: "40%", animationDelay: "1.2s" }} />
+            <span className="steam" style={{ left: "62%", animationDelay: "3.1s" }} />
+            <span className="steam" style={{ left: "80%", animationDelay: "0.8s" }} />
+          </div>
 
           <div className="mx-auto grid w-full max-w-7xl gap-8 pb-40 text-white md:pb-28">
             <Reveal className="max-w-5xl">
-              <p className="mb-3 text-xs font-black uppercase tracking-[.16em] text-[#f6c06e]">RI Spa · Tinajas y saunas</p>
-              <h1 className="max-w-[12ch] text-5xl font-black leading-[.92] tracking-normal sm:text-7xl lg:text-8xl">Tinajas, saunas desde 3 a 12 personas</h1>
+              <div className="mb-5 inline-flex items-center gap-3 rounded-full border border-white/25 bg-white/10 px-4 py-2 backdrop-blur-md">
+                <span className="flex text-[#f7d08a]">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <Star key={i} size={14} fill="currentColor" strokeWidth={0} />
+                  ))}
+                </span>
+                <span className="text-xs font-bold text-white/90">Clientes en todo Chile · RI Spa</span>
+              </div>
+              <h1 className="max-w-[13ch] text-5xl font-extrabold leading-[.94] sm:text-7xl lg:text-8xl">
+                Tinajas y saunas <span className="text-gradient-gold">desde 3 a 12</span> personas
+              </h1>
               <p className="mt-6 max-w-2xl text-lg text-white/85 md:text-2xl">Diseñadas para transformar tu terraza, parcela o quincho en un espacio de descanso durante todo el año.</p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a className="inline-flex min-h-12 items-center gap-2 rounded-md bg-[#f7d08a] px-5 font-black text-[#26140d] transition hover:-translate-y-0.5" href={whatsappUrl()} target="_blank" rel="noreferrer">
+                <a className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-[#f7d08a] px-6 font-black text-[#26140d] shadow-[0_14px_40px_rgba(247,208,138,.45)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_50px_rgba(247,208,138,.6)]" href={whatsappUrl()} target="_blank" rel="noreferrer">
                   Cotizar ahora
-                  <ArrowRight size={18} />
+                  <ArrowRight size={18} className="transition group-hover:translate-x-1" />
                 </a>
-                <a className="inline-flex min-h-12 items-center gap-2 rounded-md border border-white/45 px-5 font-black text-white transition hover:-translate-y-0.5" href="#galeria">
+                <a className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/45 bg-white/5 px-6 font-black text-white backdrop-blur-sm transition hover:-translate-y-0.5 hover:bg-white/15" href="#galeria">
                   <ImageIcon size={18} />
                   Ver trabajos
                 </a>
@@ -425,12 +502,42 @@ function App() {
             </Reveal>
           </div>
 
-          <div className="absolute inset-x-4 bottom-5 mx-auto grid max-w-7xl gap-px overflow-hidden rounded-md border border-white/20 bg-white/20 md:inset-x-8 md:grid-cols-3 lg:inset-x-14">
+          <div className="absolute inset-x-4 bottom-5 mx-auto grid max-w-7xl gap-px overflow-hidden rounded-xl border border-white/20 bg-white/20 md:inset-x-8 md:grid-cols-3 lg:inset-x-14">
             {["Tinajas", "Saunas", "3 a 12 personas"].map((title, index) => (
-              <div key={title} className="bg-[#160d0a]/58 p-4 text-white backdrop-blur-md">
+              <div key={title} className="bg-[#160d0a]/58 p-4 text-white backdrop-blur-md transition hover:bg-[#160d0a]/72">
                 <p className="font-black">{title}</p>
                 <p className="mt-1 text-sm text-white/72">{["Interior de fibra y exterior en madera", "Ambientes cálidos para exterior", "Coordinación en todo Chile"][index]}</p>
               </div>
+            ))}
+          </div>
+
+          <a href="#modelos" className="scroll-hint absolute bottom-[7.5rem] left-1/2 hidden -translate-x-1/2 text-white/70 md:block" aria-label="Desplázate hacia abajo">
+            <ChevronDown size={30} />
+          </a>
+        </section>
+
+        {/* Banda marquee de palabras clave */}
+        <div className="relative overflow-hidden border-y border-[#2e1711]/15 bg-[#2e1711] py-3 text-[#f7d08a]">
+          <div className="marquee gap-0">
+            {[...marqueeWords, ...marqueeWords].map((word, index) => (
+              <span key={index} className="flex items-center whitespace-nowrap px-6 text-sm font-black uppercase tracking-[.18em]">
+                {word}
+                <Sparkles size={14} className="ml-6 text-white/40" />
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Banda de estadísticas */}
+        <section className="bg-[#f5efe4] px-4 py-12 md:px-8 lg:px-14">
+          <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 lg:grid-cols-4">
+            {stats.map(({ value, label }, index) => (
+              <Reveal key={label} delay={index * 80}>
+                <div className="rounded-2xl border border-[#d8c4ad] bg-white/70 p-6 text-center shadow-[0_18px_50px_rgba(82,45,24,.06)]">
+                  <p className="text-3xl font-extrabold text-[#0e5f58] md:text-4xl">{value}</p>
+                  <p className="mt-1 text-sm font-semibold text-[#6c5549]">{label}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </section>
@@ -447,8 +554,8 @@ function App() {
           <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {benefits.map(({ icon: Icon, title, text }, index) => (
               <Reveal key={title} delay={index * 80}>
-                <article className="h-full rounded-lg border border-[#d8c4ad] bg-white/62 p-6 shadow-[0_18px_50px_rgba(82,45,24,.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_60px_rgba(82,45,24,.13)]">
-                <span className="mb-8 grid h-12 w-12 place-items-center rounded-md bg-[#0e5f58] text-white">
+                <article className="card-shine group h-full rounded-2xl border border-[#d8c4ad] bg-white/62 p-6 shadow-[0_18px_50px_rgba(82,45,24,.08)] transition duration-300 hover:-translate-y-1.5 hover:border-[#0e5f58]/40 hover:shadow-[0_26px_70px_rgba(14,95,88,.18)]">
+                <span className="mb-8 grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br from-[#0e5f58] to-[#13776e] text-white shadow-[0_8px_22px_rgba(14,95,88,.35)] transition group-hover:scale-110">
                   <Icon size={22} />
                 </span>
                 <h3 className="text-lg font-black">{title}</h3>
@@ -492,16 +599,19 @@ function App() {
           <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {models.map((model, index) => (
               <Reveal key={model.title} delay={index * 70}>
-                <article className="h-full overflow-hidden rounded-lg border border-[#d8c4ad] bg-white/70 shadow-[0_18px_50px_rgba(82,45,24,.08)]">
-                  <img className="h-52 w-full object-cover" src={model.image} alt={`${model.title} RI Spa`} loading="lazy" />
+                <article className="group h-full overflow-hidden rounded-2xl border border-[#d8c4ad] bg-white/70 shadow-[0_18px_50px_rgba(82,45,24,.08)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_26px_70px_rgba(82,45,24,.16)]">
+                  <div className="relative overflow-hidden">
+                    <img className="h-52 w-full object-cover transition duration-500 group-hover:scale-110" src={model.image} alt={`${model.title} RI Spa`} loading="lazy" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition group-hover:opacity-100" />
+                  </div>
                   <div className="grid gap-4 p-5">
                     <div>
                       <h3 className="text-xl font-black">{model.title}</h3>
                       <p className="mt-2 text-sm leading-6 text-[#6c5549]">{model.text}</p>
                     </div>
-                    <a className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[#0e5f58] px-4 font-black text-white transition hover:-translate-y-0.5" href={whatsappUrl(model.query)} target="_blank" rel="noreferrer">
+                    <a className="group/btn inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#0e5f58] px-4 font-black text-white transition hover:-translate-y-0.5 hover:bg-[#0c4f49]" href={whatsappUrl(model.query)} target="_blank" rel="noreferrer">
                       Cotizar modelo
-                      <ArrowRight size={17} />
+                      <ArrowRight size={17} className="transition group-hover/btn:translate-x-1" />
                     </a>
                   </div>
                 </article>
