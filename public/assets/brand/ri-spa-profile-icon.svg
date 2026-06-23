@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080" role="img" aria-labelledby="title desc">
+  <title id="title">RI Spa icono de perfil</title>
+  <desc id="desc">Icono de tinaja para perfil RI Spa.</desc>
+  <defs>
+    <linearGradient id="wood" x1="220" y1="260" x2="850" y2="900" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d89445"/>
+      <stop offset=".45" stop-color="#9d5428"/>
+      <stop offset="1" stop-color="#623019"/>
+    </linearGradient>
+    <linearGradient id="water" x1="300" y1="210" x2="780" y2="410" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9df6ec"/>
+      <stop offset=".55" stop-color="#16a096"/>
+      <stop offset="1" stop-color="#0e5f58"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="30" stdDeviation="28" flood-color="#000000" flood-opacity=".38"/>
+    </filter>
+  </defs>
+  <rect width="1080" height="1080" rx="220" fill="#130d0a"/>
+  <circle cx="540" cy="540" r="386" fill="#21140f"/>
+  <g filter="url(#shadow)" transform="translate(0 44) scale(1.08)" transform-origin="540 540">
+    <ellipse cx="540" cy="310" rx="300" ry="118" fill="#2e1711"/>
+    <ellipse cx="540" cy="294" rx="262" ry="91" fill="url(#water)"/>
+    <ellipse cx="540" cy="295" rx="164" ry="43" fill="#bffdf6" opacity=".58"/>
+    <path d="M237 314c22 237 78 401 184 491h238c106-90 162-254 184-491-72 88-534 88-606 0Z" fill="url(#wood)"/>
+    <path d="M286 430c94 52 414 52 508 0l-21 102c-98 48-368 48-466 0l-21-102Z" fill="#b87335" opacity=".82"/>
+    <path d="M300 660h480" stroke="#211814" stroke-width="42" stroke-linecap="round" opacity=".9"/>
+    <path d="M366 435v310M452 464v328M540 474v330M628 464v328M714 435v310" stroke="#f6d59b" stroke-width="19" stroke-linecap="round" opacity=".42"/>
+  </g>
+</svg>

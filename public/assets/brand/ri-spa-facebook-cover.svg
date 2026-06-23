@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1640" height="924" viewBox="0 0 1640 924" role="img" aria-labelledby="title desc">
+  <title id="title">Portada RI Spa</title>
+  <desc id="desc">Portada para Meta y Facebook de RI Spa, tinajas y saunas.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1640" y2="924" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#130d0a"/>
+      <stop offset=".52" stop-color="#2e1711"/>
+      <stop offset="1" stop-color="#0e5f58"/>
+    </linearGradient>
+    <linearGradient id="wood" x1="1010" y1="220" x2="1450" y2="760" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d89445"/>
+      <stop offset=".45" stop-color="#9d5428"/>
+      <stop offset="1" stop-color="#623019"/>
+    </linearGradient>
+    <linearGradient id="water" x1="990" y1="230" x2="1460" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9df6ec"/>
+      <stop offset=".55" stop-color="#16a096"/>
+      <stop offset="1" stop-color="#0e5f58"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="28" stdDeviation="24" flood-color="#000000" flood-opacity=".35"/>
+    </filter>
+  </defs>
+  <rect width="1640" height="924" fill="url(#bg)"/>
+  <circle cx="1368" cy="202" r="260" fill="#f6d59b" opacity=".1"/>
+  <circle cx="1030" cy="814" r="360" fill="#9df6ec" opacity=".08"/>
+  <g transform="translate(930 126) scale(.9)" filter="url(#shadow)">
+    <ellipse cx="365" cy="210" rx="270" ry="96" fill="#2e1711"/>
+    <ellipse cx="365" cy="198" rx="234" ry="74" fill="url(#water)"/>
+    <path d="M94 214c22 214 70 360 166 440h210c96-80 144-226 166-440-68 78-474 78-542 0Z" fill="url(#wood)"/>
+    <path d="M140 318c84 44 366 44 450 0l-18 90c-88 42-326 42-414 0l-18-90Z" fill="#b87335" opacity=".82"/>
+    <path d="M154 528h422" stroke="#211814" stroke-width="38" stroke-linecap="round" opacity=".9"/>
+    <path d="M214 330v282M288 354v294M365 364v298M442 354v294M516 330v282" stroke="#f6d59b" stroke-width="17" stroke-linecap="round" opacity=".42"/>
+  </g>
+  <g transform="translate(118 158)">
+    <text x="0" y="0" fill="#f6d59b" font-family="Inter, Arial, sans-serif" font-size="58" font-weight="900">RI Spa</text>
+    <text x="0" y="126" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="82" font-weight="900">Tinajas y saunas</text>
+    <text x="0" y="214" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="82" font-weight="900">de 3 a 12 personas</text>
+    <text x="0" y="300" fill="#ead7bd" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">Para terrazas, parcelas y quinchos en todo Chile</text>
+    <rect x="0" y="372" width="360" height="78" rx="14" fill="#f6d59b"/>
+    <text x="180" y="423" text-anchor="middle" fill="#211814" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="900">Cotiza por WhatsApp</text>
+  </g>
+</svg>
