@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nacho-r.github.io/TinajasRiSpa/sitemap.xml
+Sitemap: https://tu-sitio.netlify.app/sitemap.xml
