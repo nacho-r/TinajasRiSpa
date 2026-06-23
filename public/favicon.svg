@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="RI Spa tinaja">
+  <rect width="64" height="64" rx="14" fill="#130d0a"/>
+  <ellipse cx="32" cy="20" rx="22" ry="10" fill="#0e5f58"/>
+  <ellipse cx="32" cy="20" rx="15" ry="5.8" fill="#7ed9cf"/>
+  <path d="M10 21c2 18 5 27 12 32h20c7-5 10-14 12-32-5 6-39 6-44 0Z" fill="#8a4a25"/>
+  <path d="M16 26c3 4 29 4 32 0l-2 8c-4 3-24 3-28 0l-2-8Z" fill="#b87335"/>
+  <path d="M15 40h34" stroke="#211814" stroke-width="4" stroke-linecap="round"/>
+  <path d="M20 29v20M29 31v19M38 31v19M47 29v16" stroke="#f6d59b" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>
+</svg>
