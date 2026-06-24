@@ -83,16 +83,16 @@ const gallery = [
 
 const processVideos = [
   {
-    src: media.process1,
+    src: media.process2,
     stage: "Fabricación",
     title: "Armado en taller",
-    text: "Construcción de la estructura de madera pieza por pieza."
+    text: "Armado de la estructura de madera y primeras terminaciones."
   },
   {
-    src: media.process2,
-    stage: "Construcción",
-    title: "Terminaciones",
-    text: "Ajuste de paneles, puerta y detalles del sauna."
+    src: media.process1,
+    stage: "Terminaciones",
+    title: "Barnizado",
+    text: "Barnizado color madera y terminaciones de detalle."
   },
   {
     src: media.process3,
