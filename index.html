@@ -75,13 +75,15 @@
         },
         "makesOffer": {
           "@type": "Offer",
+          "availability": "https://schema.org/InStock",
           "itemOffered": {
-            "@type": "Product",
-            "name": "Tinajas de madera y saunas de 3 a 12 personas",
-            "category": "Tinajas, hot tubs, saunas y espacios de descanso",
-            "description": "Tinajas de madera, tinajas de fibra y saunas exteriores con terminaciones en madera, fabricadas a pedido."
-          },
-          "availability": "https://schema.org/InStock"
+            "@type": "Service",
+            "name": "Fabricación de tinajas de madera y saunas",
+            "serviceType": "Fabricación a pedido de tinajas, hot tubs y saunas exteriores",
+            "provider": { "@id": "https://tinajasrispa.netlify.app/#business" },
+            "areaServed": { "@type": "Country", "name": "Chile" },
+            "description": "Tinajas de madera, tinajas de fibra y saunas exteriores con terminaciones en madera, fabricadas a pedido para 3 a 12 personas."
+          }
         },
         "hasMap": "https://share.google/o8vk84jB6jMKUQ2uR",
         "sameAs": ["https://wa.me/56974820423", "https://share.google/o8vk84jB6jMKUQ2uR"]
