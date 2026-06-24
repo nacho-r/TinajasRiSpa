@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
+import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import {
   ArrowRight,
   Bath,
@@ -205,6 +206,7 @@ function FloatingWhatsApp() {
 
 function ProductModel() {
   const mountRef = useRef(null);
+  const resetRef = useRef(() => {});
   const [status, setStatus] = useState("Cargando modelo 3D");
 
   useEffect(() => {
@@ -212,43 +214,65 @@ function ProductModel() {
     if (!mount) return undefined;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x130d0a);
 
     const camera = new THREE.PerspectiveCamera(38, 1, 0.01, 1000);
     camera.position.set(2.8, 1.9, 3.4);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.08;
     renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.domElement.style.display = "block";
     renderer.domElement.style.width = "100%";
     renderer.domElement.style.height = "100%";
     mount.appendChild(renderer.domElement);
 
+    // Iluminación basada en entorno (reflejos realistas)
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const envTexture = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene.environment = envTexture;
+
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
+    controls.dampingFactor = 0.07;
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 1.4;
+    controls.autoRotateSpeed = 1.1;
     controls.minDistance = 1.8;
     controls.maxDistance = 8;
+    controls.maxPolarAngle = Math.PI * 0.52;
 
-    scene.add(new THREE.HemisphereLight(0xfff1df, 0x2c1008, 2.4));
-
-    const keyLight = new THREE.DirectionalLight(0xffdfad, 3.4);
-    keyLight.position.set(3.5, 5, 4);
+    // Luz cálida principal con sombra
+    const keyLight = new THREE.DirectionalLight(0xffe6bd, 2.6);
+    keyLight.position.set(4, 6, 4);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.set(2048, 2048);
+    keyLight.shadow.camera.near = 0.5;
+    keyLight.shadow.camera.far = 30;
+    keyLight.shadow.camera.left = -4;
+    keyLight.shadow.camera.right = 4;
+    keyLight.shadow.camera.top = 4;
+    keyLight.shadow.camera.bottom = -4;
+    keyLight.shadow.bias = -0.0004;
+    keyLight.shadow.radius = 6;
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0x79fff1, 1.1);
-    fillLight.position.set(-4, 2.5, -2);
+    // Luz de relleno fría para dar volumen
+    const fillLight = new THREE.DirectionalLight(0x9fe8ff, 0.6);
+    fillLight.position.set(-5, 3, -3);
     scene.add(fillLight);
 
+    // Sombra de contacto (solo recibe sombra, fondo transparente)
     const floor = new THREE.Mesh(
-      new THREE.CircleGeometry(2.9, 80),
-      new THREE.MeshStandardMaterial({ color: 0x2b1a12, roughness: 0.86, metalness: 0.02 })
+      new THREE.PlaneGeometry(14, 14),
+      new THREE.ShadowMaterial({ opacity: 0.32 })
     );
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = -1.08;
+    floor.receiveShadow = true;
     scene.add(floor);
 
     const modelRoot = new THREE.Group();
@@ -258,6 +282,8 @@ function ProductModel() {
     let frameId = 0;
     let resizeObserver = null;
     let cancelled = false;
+    const homeTarget = new THREE.Vector3();
+    const homePosition = new THREE.Vector3();
 
     function resize() {
       const { width, height } = mount.getBoundingClientRect();
@@ -298,6 +324,9 @@ function ProductModel() {
       const centeredSize = new THREE.Vector3();
       centeredBox.getSize(centeredSize);
 
+      // Apoyar la sombra justo bajo la base del modelo
+      floor.position.y = -centeredSize.y / 2 - 0.001;
+
       const distance = Math.max(centeredSize.x, centeredSize.y, centeredSize.z) * 2.85;
       camera.position.set(0, distance * 0.42, distance * 1.08);
       camera.near = Math.max(distance / 100, 0.01);
@@ -305,12 +334,22 @@ function ProductModel() {
       camera.updateProjectionMatrix();
       controls.target.set(0, centeredSize.y * 0.04, 0);
       controls.update();
+
+      homePosition.copy(camera.position);
+      homeTarget.copy(controls.target);
     }
+
+    resetRef.current = () => {
+      camera.position.copy(homePosition);
+      controls.target.copy(homeTarget);
+      controls.update();
+    };
 
     const textureLoader = new THREE.TextureLoader();
     const texture = textureLoader.load(media.texture);
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.flipY = true;
+    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
 
     const roughness = textureLoader.load(media.roughness);
     roughness.flipY = true;
@@ -324,11 +363,14 @@ function ProductModel() {
         model.traverse((child) => {
           if (!child.isMesh) return;
           child.geometry.computeVertexNormals();
+          child.castShadow = true;
+          child.receiveShadow = true;
           child.material = new THREE.MeshStandardMaterial({
             map: texture,
             roughnessMap: roughness,
-            roughness: 0.72,
-            metalness: 0.04
+            roughness: 0.78,
+            metalness: 0.05,
+            envMapIntensity: 1.15
           });
         });
         fitModel(model);
@@ -356,6 +398,10 @@ function ProductModel() {
       cancelAnimationFrame(frameId);
       resizeObserver?.disconnect();
       controls.dispose();
+      pmrem.dispose();
+      envTexture.dispose();
+      floor.geometry.dispose();
+      floor.material.dispose();
       renderer.dispose();
       texture.dispose();
       roughness.dispose();
@@ -370,16 +416,26 @@ function ProductModel() {
   }, []);
 
   return (
-    <div className="relative h-[62svh] min-h-[380px] overflow-hidden rounded-lg border border-white/15 bg-[#130d0a] shadow-[0_24px_80px_rgba(0,0,0,.34)] md:min-h-[560px]">
+    <div
+      className="relative h-[62svh] min-h-[380px] overflow-hidden rounded-2xl border border-white/15 shadow-[0_24px_80px_rgba(0,0,0,.34)] md:min-h-[560px]"
+      style={{ background: "radial-gradient(120% 120% at 50% 18%, #3a2417 0%, #1d120c 48%, #0c0705 100%)" }}
+    >
       <div ref={mountRef} className="h-full w-full" aria-label="Modelo 3D interactivo de tinaja" />
       {status && (
-        <div className="absolute inset-0 grid place-items-center bg-[#130d0a] text-sm font-black text-white/75">
+        <div className="absolute inset-0 grid place-items-center text-sm font-black text-white/75">
           {status}
         </div>
       )}
-      <span className="absolute bottom-4 left-4 rounded-md border border-white/30 bg-black/45 px-3 py-2 text-sm font-black text-white backdrop-blur">
+      <span className="absolute bottom-4 left-4 rounded-full border border-white/25 bg-black/40 px-4 py-2 text-sm font-black text-white backdrop-blur">
         Gira, acerca y explora
       </span>
+      <button
+        type="button"
+        onClick={() => resetRef.current()}
+        className="absolute bottom-4 right-4 rounded-full border border-white/25 bg-black/40 px-4 py-2 text-sm font-black text-white backdrop-blur transition hover:bg-black/60"
+      >
+        Reiniciar vista
+      </button>
     </div>
   );
 }
