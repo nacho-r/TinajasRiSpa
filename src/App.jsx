@@ -32,7 +32,12 @@ const media = {
   detail: asset("assets/img/tinaja-detalle.jpeg"),
   saunaOne: asset("assets/img/sauna-01.jpeg"),
   saunaTwo: asset("assets/img/sauna-02.jpeg"),
+  saunaFinished: asset("assets/img/sauna-terminado.jpeg"),
+  saunaBuild: asset("assets/img/sauna-construccion.jpeg"),
   video: asset("assets/media/video-02.mp4"),
+  process1: asset("assets/media/sauna-proceso-01.mp4"),
+  process2: asset("assets/media/sauna-proceso-02.mp4"),
+  process3: asset("assets/media/sauna-proceso-03.mp4"),
   model: asset("assets/model/tinaja.obj"),
   texture: asset("assets/model/tinaja-texture.jpg"),
   roughness: asset("assets/model/tinaja-roughness.png")
@@ -40,14 +45,14 @@ const media = {
 
 const gallery = [
   {
-    src: media.saunaOne,
-    title: "Sauna en madera",
-    alt: "Sauna de madera fabricado por RI Spa"
+    src: media.saunaFinished,
+    title: "Sauna terminado",
+    alt: "Sauna barril de madera terminado en el taller de RI Spa"
   },
   {
-    src: media.saunaTwo,
-    title: "Interior de sauna",
-    alt: "Interior de sauna con terminación en madera"
+    src: media.saunaBuild,
+    title: "Construcción del techo",
+    alt: "Operario instalando la tejuela del techo de un sauna en construcción"
   },
   {
     src: media.installed,
@@ -73,6 +78,27 @@ const gallery = [
     src: media.detail,
     title: "Detalles",
     alt: "Detalle de terminación y estructura de una tinaja"
+  }
+];
+
+const processVideos = [
+  {
+    src: media.process1,
+    stage: "Fabricación",
+    title: "Armado en taller",
+    text: "Construcción de la estructura de madera pieza por pieza."
+  },
+  {
+    src: media.process2,
+    stage: "Construcción",
+    title: "Terminaciones",
+    text: "Ajuste de paneles, puerta y detalles del sauna."
+  },
+  {
+    src: media.process3,
+    stage: "Construcción",
+    title: "Montaje del techo",
+    text: "Instalación de la tejuela y cierre final antes del despacho."
   }
 ];
 
@@ -121,7 +147,7 @@ const models = [
   {
     title: "Sauna exterior",
     text: "Saunas con terminación en madera para descanso, calor seco y uso durante todo el año.",
-    image: media.saunaOne,
+    image: media.saunaFinished,
     query: "Hola, quiero cotizar un sauna exterior."
   }
 ];
@@ -507,6 +533,7 @@ function App() {
           <nav className="hidden items-center justify-center gap-8 text-sm font-semibold text-[#5d4034] md:flex">
             <a href="#modelos">Modelos</a>
             <a href="#galeria">Galería</a>
+            <a href="#fabricacion">Fabricación</a>
             <a href="#vista">Vista 3D</a>
             <a href="#contacto">Contacto</a>
           </nav>
@@ -707,23 +734,49 @@ function App() {
           </div>
         </section>
 
-        <section className="bg-[#2e1711] px-4 py-20 text-white md:px-8 lg:px-14 lg:py-28">
-          <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[.85fr_1.15fr]">
-            <Reveal>
-              <p className="mb-3 text-xs font-black uppercase tracking-[.16em] text-[#f6c06e]">Video</p>
-              <h2 className="text-4xl font-black leading-tight tracking-normal md:text-6xl">Mira proporciones y terminaciones</h2>
-              <p className="mt-5 text-lg text-white/72">Registro real del producto para apreciar tamaño, materiales y detalles de fabricación.</p>
+        <section id="fabricacion" className="bg-[#2e1711] px-4 py-20 text-white md:px-8 lg:px-14 lg:py-28">
+          <div className="mx-auto max-w-7xl">
+            <Reveal className="grid items-center gap-8 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
+              <div>
+                <p className="mb-3 text-xs font-black uppercase tracking-[.16em] text-[#f6c06e]">Fabricación y construcción</p>
+                <h2 className="text-4xl font-black leading-tight tracking-normal md:text-6xl">Cada sauna se construye a mano en nuestro taller</h2>
+                <p className="mt-5 text-lg text-white/72">Del armado de la estructura hasta el montaje del techo: registro real del proceso de fabricación para que veas la calidad y la terminación en madera antes de cotizar.</p>
+                <div className="mt-8 grid gap-3">
+                  {["Estructura y paneles de madera armados pieza por pieza.", "Terminaciones, puerta y detalles ajustados a mano.", "Techo de tejuela y cierre final antes del despacho."].map((item) => (
+                    <div key={item} className="flex items-start gap-3 font-semibold text-white/85">
+                      <Hammer className="mt-0.5 shrink-0 text-[#f6c06e]" size={19} />
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="overflow-hidden rounded-2xl border border-white/15 shadow-[0_24px_80px_rgba(0,0,0,.34)]">
+                <img className="h-full max-h-[520px] w-full object-cover" src={media.saunaBuild} alt="Operario instalando la tejuela del techo de un sauna en construcción" loading="lazy" width="1280" height="720" />
+              </div>
             </Reveal>
-            <Reveal className="relative overflow-hidden rounded-lg border border-white/15 bg-black p-2 shadow-[0_24px_80px_rgba(0,0,0,.28)]" delay={120}>
-              <span className="absolute left-5 top-5 z-10 inline-flex items-center gap-2 rounded-md bg-black/45 px-3 py-2 text-sm font-black backdrop-blur">
-                <Play size={16} />
-                Video
-              </span>
-              <video className="aspect-video w-full rounded-md bg-black object-contain" controls muted playsInline preload="metadata" poster={media.installed}>
-                <source src={media.video} type="video/mp4" />
-                Tu navegador no puede reproducir este video.
-              </video>
-            </Reveal>
+
+            <div className="mt-12 grid gap-4 md:grid-cols-3">
+              {processVideos.map((item, index) => (
+                <Reveal key={item.src} delay={index * 90}>
+                  <article className="group h-full overflow-hidden rounded-2xl border border-white/15 bg-black/40 shadow-[0_18px_50px_rgba(0,0,0,.3)]">
+                    <div className="relative">
+                      <span className="absolute left-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-[#0e5f58] px-3 py-1.5 text-xs font-black uppercase tracking-wide backdrop-blur">
+                        <Play size={13} fill="currentColor" strokeWidth={0} />
+                        {item.stage}
+                      </span>
+                      <video className="aspect-[9/16] w-full bg-black object-contain md:aspect-video" controls muted playsInline preload="metadata" poster={media.saunaFinished}>
+                        <source src={item.src} type="video/mp4" />
+                        Tu navegador no puede reproducir este video.
+                      </video>
+                    </div>
+                    <div className="p-4">
+                      <h3 className="font-black">{item.title}</h3>
+                      <p className="mt-1 text-sm text-white/70">{item.text}</p>
+                    </div>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
