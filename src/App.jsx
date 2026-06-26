@@ -7,9 +7,11 @@ import {
   ArrowRight,
   Bath,
   ChevronDown,
+  Facebook,
   Flame,
   Hammer,
   Image as ImageIcon,
+  Instagram,
   MessageCircle,
   Play,
   ShieldCheck,
@@ -20,6 +22,8 @@ import {
 import "./styles.css";
 
 const whatsappBase = "https://wa.me/56974820423";
+const facebookUrl = "https://www.facebook.com/profile.php?id=61591256011343";
+const instagramUrl = "https://www.instagram.com/rispa.tinajas/";
 const googleBusinessUrl = "https://share.google/o8vk84jB6jMKUQ2uR";
 const asset = (path) => `${import.meta.env.BASE_URL}${path}`;
 
@@ -813,6 +817,20 @@ function App() {
                 <MessageCircle size={19} />
                 Abrir WhatsApp
               </a>
+
+              <div className="mt-8">
+                <p className="text-xs font-black uppercase tracking-[.16em] text-[#f6d59b]">Síguenos</p>
+                <div className="mt-3 flex flex-wrap gap-3">
+                  <a className="group inline-flex min-h-12 items-center gap-2 rounded-full px-5 font-black text-white shadow-[0_12px_30px_rgba(0,0,0,.25)] transition hover:-translate-y-0.5" style={{ background: "linear-gradient(135deg,#feda75,#fa7e1e 35%,#d62976 65%,#962fbf)" }} href={instagramUrl} target="_blank" rel="noreferrer" aria-label="Instagram de RI Spa">
+                    <Instagram size={19} />
+                    Instagram
+                  </a>
+                  <a className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#1877f2] px-5 font-black text-white shadow-[0_12px_30px_rgba(24,119,242,.35)] transition hover:-translate-y-0.5" href={facebookUrl} target="_blank" rel="noreferrer" aria-label="Facebook de RI Spa">
+                    <Facebook size={19} />
+                    Facebook
+                  </a>
+                </div>
+              </div>
             </Reveal>
 
             <Reveal delay={120}>
@@ -843,12 +861,27 @@ function App() {
         </section>
       </main>
 
-      <footer className="bg-[#130d0a] px-4 py-7 text-white/75 md:px-8 lg:px-14">
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-3 sm:flex-row">
-          <p>RI Spa · Tinajas y saunas</p>
-          <div className="flex flex-wrap gap-4">
-            <a href={googleBusinessUrl} target="_blank" rel="noreferrer">RI Tech en Google</a>
-            <a href={whatsappUrl()} target="_blank" rel="noreferrer">Cotizar por WhatsApp</a>
+      <footer className="bg-[#130d0a] px-4 py-9 text-white/75 md:px-8 lg:px-14">
+        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+          <div className="flex flex-col gap-4">
+            <p className="font-black text-white">RI Spa · Tinajas y saunas</p>
+            <div className="flex gap-3">
+              <a className="grid h-11 w-11 place-items-center rounded-full text-white shadow-[0_8px_22px_rgba(0,0,0,.3)] transition hover:-translate-y-0.5" style={{ background: "linear-gradient(135deg,#feda75,#fa7e1e 35%,#d62976 65%,#962fbf)" }} href={instagramUrl} target="_blank" rel="noreferrer" aria-label="Instagram de RI Spa">
+                <Instagram size={20} />
+              </a>
+              <a className="grid h-11 w-11 place-items-center rounded-full bg-[#1877f2] text-white shadow-[0_8px_22px_rgba(24,119,242,.35)] transition hover:-translate-y-0.5" href={facebookUrl} target="_blank" rel="noreferrer" aria-label="Facebook de RI Spa">
+                <Facebook size={20} />
+              </a>
+              <a className="grid h-11 w-11 place-items-center rounded-full bg-[#25d366] text-white shadow-[0_8px_22px_rgba(37,211,102,.35)] transition hover:-translate-y-0.5" href={whatsappUrl()} target="_blank" rel="noreferrer" aria-label="WhatsApp de RI Spa">
+                <MessageCircle size={20} />
+              </a>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+            <a className="transition hover:text-white" href={instagramUrl} target="_blank" rel="noreferrer">Instagram</a>
+            <a className="transition hover:text-white" href={facebookUrl} target="_blank" rel="noreferrer">Facebook</a>
+            <a className="transition hover:text-white" href={googleBusinessUrl} target="_blank" rel="noreferrer">RI Tech en Google</a>
+            <a className="transition hover:text-white" href={whatsappUrl()} target="_blank" rel="noreferrer">Cotizar por WhatsApp</a>
           </div>
         </div>
       </footer>
